@@ -60,6 +60,8 @@ public class ClassicGameScreen extends GameScreen {
 
             if (asteroid != null) {
 
+                asteroid.attackShip(ship);
+
                 // Update the sprite's position and angle
                 asteroid.setX(asteroid.getBody().getPosition().x);
                 asteroid.setY(asteroid.getBody().getPosition().y);
@@ -83,11 +85,11 @@ public class ClassicGameScreen extends GameScreen {
 
         //draw score on canvas
         game.getFont().draw(game.getBatch(), "Score: " + game.getScore(), 420, 20);
-        boolean gyroscopeAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Gyroscope);
-        if(gyroscopeAvail) {
-            game.getFont().draw(game.getBatch(), "X: " + (Gdx.input.getGyroscopeX()+1), 400, 420);
-            game.getFont().draw(game.getBatch(), "Y: " + (Gdx.input.getGyroscopeY()+1), 400, 440);
-            game.getFont().draw(game.getBatch(), "Z: " + (Gdx.input.getGyroscopeZ()+1), 400, 460);
+        boolean compassAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Compass);
+        if(compassAvail) {
+            game.getFont().draw(game.getBatch(), "X: " + (Gdx.input.getPitch()), 400, 420);
+            game.getFont().draw(game.getBatch(), "Y: " + (Gdx.input.getRoll()), 400, 440);
+            game.getFont().draw(game.getBatch(), "Z: " + (Gdx.input.getAzimuth()), 400, 460);
         } else {
             game.getFont().draw(game.getBatch(), "Gyroscope not available", 400, 400);
         }
@@ -110,6 +112,8 @@ public class ClassicGameScreen extends GameScreen {
 
         //Spawn objects every three seconds
         if (TimeUtils.nanoTime() - lastAsteroidSpawnTime > (long) 1000000000 * 3) spawnAsteroid();
+
+
 
         //remove any that are beneath the bottom edge of
         // the screen
@@ -141,14 +145,14 @@ public class ClassicGameScreen extends GameScreen {
 
 
 
-                boolean gyroscopeAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Gyroscope);
-                if(gyroscopeAvail) {
-                    if(Gdx.input.getGyroscopeY()>0.2){
+                boolean compassAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Compass);
+                if(compassAvail) {
+                    if(Gdx.input.getRoll()>20){
 
                         ship.getSprite().rotate(-1);
                         ship.setRotation(ship.getRotation() - 1);
 
-                    }else if(Gdx.input.getGyroscopeY()<-0.2){
+                    }else if(Gdx.input.getRoll()<-20){
 
                         ship.getSprite().rotate(1);
                         ship.setRotation(ship.getRotation() + 1);

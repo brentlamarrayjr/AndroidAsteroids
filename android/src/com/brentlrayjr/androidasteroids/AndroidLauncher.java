@@ -13,9 +13,10 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useGyroscope = true;  //default is false
 
+
 //you may want to switch off sensors that are on by default if they are no longer needed.
-		config.useAccelerometer = false;
-		config.useCompass = false;
+		config.useAccelerometer = true;
+		config.useCompass = true;
 		initialize(new Asteroids(), config);
 
 	}

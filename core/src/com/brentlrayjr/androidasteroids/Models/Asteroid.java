@@ -22,17 +22,17 @@ public class Asteroid extends GameObject {
         int n = new Random().nextInt(4);
 
         switch(n){
-            case 0:
+            case 0: //LEFT
                 position = new Vector2(-10, new Random().nextInt(1024));
                 break;
-            case 1:
+            case 1: //RIGHT
                 position = new Vector2(1034, -new Random().nextInt(1024));
                 break;
-            case 2:
+            case 2: //BOTTOM
                 position = new Vector2(new Random().nextInt(1024), -10);
                 break;
-            case 3:
-                position = new Vector2(-new Random().nextInt(1024), 10);
+            case 3: //TOP
+                position = new Vector2(-new Random().nextInt(1024), 1034);
                 break;
         }
 
@@ -45,7 +45,7 @@ public class Asteroid extends GameObject {
 
     }
 
-    void attackShip(Ship ship)
+    public void attackShip(Ship ship)
     {
 
 
