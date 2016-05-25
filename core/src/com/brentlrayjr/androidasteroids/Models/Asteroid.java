@@ -12,8 +12,12 @@ public class Asteroid extends GameObject {
     public static final float DENSITY = 1;
     public static final float FRICTION = 0;
     public static final float RESTITUTION = 0;
+    public static final float SPEED = 200;
 
     private Vector2 position;
+    public Vector2 direction;
+    private Vector2 velocity;
+    public boolean moving = false;
 
     public Asteroid(){
 
@@ -36,6 +40,7 @@ public class Asteroid extends GameObject {
                 break;
         }
 
+
         x = position.x;
         y = position.y;
 
@@ -45,17 +50,65 @@ public class Asteroid extends GameObject {
 
     }
 
-    public void attackShip(Ship ship)
-    {
+
+    public void attack(Ship ship){
 
 
+            direction = new Vector2(ship.x, ship.y);
+            moving = true;
 
-        float x = ship.body.getPosition().x -this.body.getPosition().x;
-        float y = ship.body.getPosition().y -this.body.getPosition().y;
-        x*=60f;
-        y*=60f;
-        body.setLinearVelocity(x,y);
+        float x =0;
+        float y = 0;
+
+        if(this.direction.x>this.x){
+            x += Asteroid.SPEED * Gdx.graphics.getDeltaTime();
+        }else{
+            x -= Asteroid.SPEED * Gdx.graphics.getDeltaTime();
+        }
+
+        if(this.direction.y>this.y){
+            y +=  Asteroid.SPEED * Gdx.graphics.getDeltaTime();
+        }else {
+            y -=  Asteroid.SPEED * Gdx.graphics.getDeltaTime();
+        }
+
+        velocity = new Vector2(x, y);
+
 
     }
 
+    public void move(){
+
+            this.x += velocity.x;
+
+            this.y +=  velocity.y;
+
+
+        sprite.setPosition(this.x, this.y);
+
+
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+
+        if(!(o instanceof Asteroid)) {
+            return false;
+
+        } else {
+
+            Asteroid asteroid = (Asteroid) o;
+
+            if(this.getId()!= asteroid.getId()){
+                return false;
+            }
+
+        }
+
+
+
+        return true;
+    }
 }

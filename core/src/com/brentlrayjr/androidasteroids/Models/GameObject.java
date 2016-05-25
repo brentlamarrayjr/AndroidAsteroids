@@ -13,7 +13,7 @@ public class GameObject {
     Body body;
     Sprite sprite;
 
-    float x, y, width, height;
+    public float x, y, width, height;
 
     public GameObject(){
 

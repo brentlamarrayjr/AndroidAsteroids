@@ -8,15 +8,10 @@ import com.brentlrayjr.androidasteroids.Asteroids;
 
 
 public class MainMenuScreen extends GameScreen {
-    Asteroids game;
-    OrthographicCamera camera;
 
-    public MainMenuScreen(final Asteroids game) {
+    public MainMenuScreen(Asteroids game) {
 
-        this.game = game;
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, 480, 800);
+        super(game);
 
     }
 
@@ -25,12 +20,12 @@ public class MainMenuScreen extends GameScreen {
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.update();
-        game.getBatch().setProjectionMatrix(camera.combined);
+        game.getViewport().getCamera().update();
+        game.getBatch().setProjectionMatrix(game.getViewport().getCamera().combined);
 
         game.getBatch().begin();
         game.getFont().setColor(Color.RED);
-        game.getFont().draw(game.getBatch(), "Ryse", game.getWidth() / 2, game.getHeight() / 2);
+        game.getFont().draw(game.getBatch(), "Android Asteroids", game.getWidth() / 2, game.getHeight() / 2);
         game.getFont().draw(game.getBatch(), "Tap anywhere to begin!", game.getWidth() / 2, game.getHeight() / 2 - 10);
         game.getBatch().end();
 

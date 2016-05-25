@@ -4,13 +4,18 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.brentlrayjr.androidasteroids.Screens.MainMenuScreen;
 
 public class Asteroids extends Game{
 
+
+	Viewport viewport;
 
 	SpriteBatch batch;
 	BitmapFont font;
@@ -20,8 +25,15 @@ public class Asteroids extends Game{
 	public void create() {
 		batch = new SpriteBatch();
 
-		width = 1024;
-		height = 1024;
+
+		viewport = new ScreenViewport();
+		viewport.setCamera(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+		viewport.apply();
+
+		width = viewport.getWorldWidth();
+		height = viewport.getWorldHeight();
+
+
 		score = 0;
 
 		// Use LibGDX's default Arial font.
@@ -77,5 +89,14 @@ public class Asteroids extends Game{
 	public void setScore(int score) {
 		this.score = score;
 	}
+
+	public Viewport getViewport() {
+		return viewport;
+	}
+
+	public void setViewport(Viewport viewport) {
+		this.viewport = viewport;
+	}
+
 
 }

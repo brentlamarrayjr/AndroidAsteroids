@@ -13,15 +13,15 @@ public class Ship extends GameObject {
 
     public int rotation = 0;
 
-    public Ship() {
+    public Ship(float x, float y) {
 
         super(new Texture(Gdx.files.internal("ships/classic/shipB.png")));
 
         this.width = texture.getWidth();
         this.height = texture.getHeight();
 
-        this.x = 1024/2-this.width/2;
-        this.y = 1024/2-this.height/2;
+        this.x = x/2-this.width/2;
+        this.y = y/2-this.height/2;
 
 
     }
@@ -32,11 +32,15 @@ public class Ship extends GameObject {
 
     public void setRotation(int rotation) {
         this.rotation = rotation;
+
+        if(rotation ==360)
+            rotation=0;
+
+        if(rotation == -360)
+            rotation=0;
+
     }
 
-    public void rotateLeft(){}
-
-    public void rotateRight(){}
 
 
 }
