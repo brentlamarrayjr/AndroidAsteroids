@@ -17,19 +17,15 @@ import com.brentlrayjr.androidasteroids.Models.Debris;
 import com.brentlrayjr.androidasteroids.Models.GameInfo;
 import com.brentlrayjr.androidasteroids.Models.Ship;
 
-public class ClassicGameScreen extends GameScreen {
+public class ArenaGameScreen extends GameScreen {
 
 
 
 
 
-    public ClassicGameScreen(Asteroids game, GameCallbacks gameCallbacks) {
+    public ArenaGameScreen(final Asteroids game, GameCallbacks gameCallbacks) {
 
         super(game, gameCallbacks);
-
-
-
-
     }
 
 
@@ -48,12 +44,6 @@ public class ClassicGameScreen extends GameScreen {
 
         //Render SpriteBatch coordinate system with the one specified by the camera.
         game.getBatch().setProjectionMatrix(game.getViewport().getCamera().combined);
-
-        //Spawn a ship
-        if (ship == null) {
-            ship = spawnShip();
-        }
-
 
 
 
@@ -119,10 +109,10 @@ public class ClassicGameScreen extends GameScreen {
 
 
         //Spawn asteroids
-      if (TimeUtils.nanoTime() - lastAsteroidSpawnTime > (long) 1000000000 * 3){
-          spawnAsteroid();
+        if (TimeUtils.nanoTime() - lastAsteroidSpawnTime > (long) 1000000000 * 3){
+            spawnAsteroid();
 
-      }
+        }
 
 
 
@@ -137,22 +127,22 @@ public class ClassicGameScreen extends GameScreen {
 
 
 
-                boolean compassAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Compass);
-                if(compassAvail) {
-                    if(Gdx.input.getRoll()>10){
+        boolean compassAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Compass);
+        if(compassAvail) {
+            if(Gdx.input.getRoll()>10){
 
-                        ship.sprite.rotate(-3);
-                        ship.setRotation(ship.getRotation() - 3);
-
-
-
-                    }else if(Gdx.input.getRoll()<-10){
-
-                        ship.sprite.rotate(3);
-                        ship.setRotation(ship.getRotation() + 3);
+                ship.sprite.rotate(-3);
+                ship.setRotation(ship.getRotation() - 3);
 
 
-                    }
+
+            }else if(Gdx.input.getRoll()<-10){
+
+                ship.sprite.rotate(3);
+                ship.setRotation(ship.getRotation() + 3);
+
+
+            }
 
 
         }
@@ -178,20 +168,20 @@ public class ClassicGameScreen extends GameScreen {
 
         if(y + ship.height > Gdx.graphics.getHeight()) {
 
-                ship.y = Gdx.graphics.getHeight() - ship.height;
+            ship.y = Gdx.graphics.getHeight() - ship.height;
 
         } else if(y < 0) {
 
-                ship.y = 0;
+            ship.y = 0;
         }
 
         if(x + ship.width > Gdx.graphics.getWidth()) {
 
-                ship.x = Gdx.graphics.getWidth() - ship.width;
+            ship.x = Gdx.graphics.getWidth() - ship.width;
 
         } else if(x < 0) {
 
-                ship.x = 0;
+            ship.x = 0;
 
         }
 
@@ -209,7 +199,7 @@ public class ClassicGameScreen extends GameScreen {
         else if(y < -asteroid.height) {isOutside = true;}
 
         if(x > Gdx.graphics.getWidth()) {isOutside = true;}
-        else if(x < -asteroid.width) {isOutside = true;}
+        else if(x < -asteroid.x) {isOutside = true;}
 
         asteroid.sprite.setPosition(x, y);
 
@@ -276,19 +266,29 @@ public class ClassicGameScreen extends GameScreen {
 
     }
 
+
     @Override
     public void onApiReady(GameInfo gameInfo) {
+
+        this.gameInfo = gameInfo;
+
+        gameInfo.ship = spawnShip();
+
+        gameCallbacks.onQuickGameRequested();
+
 
     }
 
     @Override
-    public void onApiDisconnected() {
+    public void onApiDisconnected(){
+
+
 
     }
 
     @Override
     public void onGameInfoReceived(GameInfo gameInfo) {
 
+
     }
 }
-

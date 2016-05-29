@@ -10,7 +10,7 @@ public class ParallaxBackground extends GameObject {
     public int position;
     public ParallaxBackground(){
 
-        this.texture = new Texture(Gdx.files.internal("background.png"));
+        super(new Texture(Gdx.files.internal("purple.png")));
     }
 
 }

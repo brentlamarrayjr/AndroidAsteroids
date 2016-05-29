@@ -3,11 +3,20 @@ package com.brentlrayjr.androidasteroids.Models;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.brentlrayjr.androidasteroids.Utils;
 
 import java.util.Random;
 
 
 public class Asteroid extends GameObject {
+
+    public static final float DEGTORAD =  0.0174532925199432957f;
 
     public static final float DENSITY = 1;
     public static final float FRICTION = 0;
@@ -18,6 +27,7 @@ public class Asteroid extends GameObject {
     public Vector2 direction;
     private Vector2 velocity;
     public boolean moving = false;
+
 
     public Asteroid(){
 
@@ -101,7 +111,7 @@ public class Asteroid extends GameObject {
 
             Asteroid asteroid = (Asteroid) o;
 
-            if(this.getId()!= asteroid.getId()){
+            if(!this.id.equals(asteroid.id)){
                 return false;
             }
 
@@ -111,4 +121,48 @@ public class Asteroid extends GameObject {
 
         return true;
     }
+
+
+
+    public Array<Debris> explode(World world){
+
+        Array<Debris> debris = new Array<Debris>();
+
+        float m_blastRadius = 10f;
+        float blastPower = 1000f;
+
+
+        for (int i = 0; i < 3; i++) {
+            float angle = (i / (float)3) * 360 * DEGTORAD;
+            Vector2 rayDir = new Vector2((float) Math.sin(angle), (float) Math.cos(angle));
+
+
+            BodyDef bd = new BodyDef();
+            bd.type = BodyDef.BodyType.DynamicBody;
+            bd.fixedRotation = true; // rotation not necessary
+            bd.bullet = true; // prevent tunneling at high speed
+            bd.linearDamping = 10; // drag due to moving through air
+            bd.gravityScale = 0; // ignore gravity
+            bd.position.set(this.body.getPosition()); // start at blast center
+            bd.linearVelocity.set(Utils.multiply(rayDir, blastPower));
+            Body body = world.createBody(bd);
+
+
+            CircleShape circleShape = new CircleShape();
+            circleShape.setRadius(0.05f); // very small
+
+            FixtureDef fd = new FixtureDef();
+            fd.shape = circleShape;
+            fd.density = 60 / (float)3; // very high - shared across all particles
+            fd.friction = 0; // friction not necessary
+            fd.restitution = 0.99f; // high restitution to reflect off obstacles
+            fd.filter.groupIndex = -1; // particles should not collide with each other
+            body.createFixture(fd);
+
+            debris.add(new Debris(body));
+        }
+
+        return debris;
+    }
+
 }

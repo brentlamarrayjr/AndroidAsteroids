@@ -1,16 +1,13 @@
 package com.brentlrayjr.androidasteroids;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.brentlrayjr.androidasteroids.Screens.MainMenuScreen;
+import com.brentlrayjr.androidasteroids.Screens.IntroScreen;
 
 public class Asteroids extends Game{
 
@@ -20,25 +17,31 @@ public class Asteroids extends Game{
 	SpriteBatch batch;
 	BitmapFont font;
 	float width, height;
-	int score;
+	private GameCallbacks gameCallbacks;
+
+
+	public Asteroids(GameCallbacks gameCallbacks){
+
+		this.gameCallbacks = gameCallbacks;
+
+
+	}
 
 	public void create() {
 		batch = new SpriteBatch();
 
 
-		viewport = new ScreenViewport();
-		viewport.setCamera(new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-		viewport.apply();
+
+		OrthographicCamera camera = new OrthographicCamera();
+		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		viewport = new ScreenViewport(camera);
 
 		width = viewport.getWorldWidth();
 		height = viewport.getWorldHeight();
 
-
-		score = 0;
-
 		// Use LibGDX's default Arial font.
 		font = new BitmapFont();
-		this.setScreen(new MainMenuScreen(this));
+		this.setScreen(new IntroScreen(this, gameCallbacks));
 	}
 
 	public void render() {
@@ -80,14 +83,6 @@ public class Asteroids extends Game{
 
 	public void setHeight(float height) {
 		this.height = height;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
 	}
 
 	public Viewport getViewport() {

@@ -3,15 +3,16 @@ package com.brentlrayjr.androidasteroids.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.brentlrayjr.androidasteroids.Asteroids;
+import com.brentlrayjr.androidasteroids.GameCallbacks;
+import com.brentlrayjr.androidasteroids.Models.GameInfo;
 
 
-public class MainMenuScreen extends GameScreen {
+public class IntroScreen extends BaseScreen {
 
-    public MainMenuScreen(Asteroids game) {
+    public IntroScreen(Asteroids game, GameCallbacks gameCallbacks) {
 
-        super(game);
+        super(game, gameCallbacks);
 
     }
 
@@ -30,7 +31,7 @@ public class MainMenuScreen extends GameScreen {
         game.getBatch().end();
 
         if (Gdx.input.isTouched()) {
-            game.setScreen(new ClassicGameScreen(game));
+            game.setScreen(new ClassicGameScreen(game, gameCallbacks));
             dispose();
         }
     }
@@ -57,5 +58,20 @@ public class MainMenuScreen extends GameScreen {
 
     @Override
     public void dispose() {
+    }
+
+    @Override
+    public void onApiReady(GameInfo gameInfo) {
+
+    }
+
+    @Override
+    public void onApiDisconnected() {
+
+    }
+
+    @Override
+    public void onGameInfoReceived(GameInfo gameInfo) {
+
     }
 }
