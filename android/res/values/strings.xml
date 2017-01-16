@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Android Asteroids</string>
-    <string name="app_id">164417439306</string>
+    <string name="app_id"></string>
     <string name="achievement_"></string>
 
     <string name="sign_in_failed">Failed to sign in. Please check your network connection and try again.</string>
