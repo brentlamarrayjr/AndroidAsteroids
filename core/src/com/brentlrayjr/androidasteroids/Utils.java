@@ -19,22 +19,6 @@ public class Utils {
 
     }
 
-    public static class Leaderboards{
-
-
-        public static final String CLASSIC = "CgkIyoyswOQEEAIQBg";
-        public static final String ARENA = "CgkIyoyswOQEEAIQBw";
-
-    }
-
-    public static class Achievements{
-
-
-        public static final String LEARNING_THE_ROPES = "CgkIyoyswOQEEAIQBg";
-        public static final String ARENA = "CgkIyoyswOQEEAIQBw";
-
-    }
-
     public static String generateId() {
 
         StringBuilder builder = new StringBuilder();
@@ -50,7 +34,7 @@ public class Utils {
         return builder.toString();
     }
 
-    // toByteArray and toObject are taken from: http://tinyurl.com/69h8l7x
+ 
     public static byte[] toByteArray(Object obj) throws IOException {
         byte[] bytes = null;
         ByteArrayOutputStream bos = null;
